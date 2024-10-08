@@ -96,21 +96,15 @@ def get_order_status():
         # Compare the latest 'tec_fecha_edicion' with today's date
         if latest_product['tec_fecha_edicion'] > date.today():
             preventa = True
+            rawName = latest_product['name']
+            rawFecha = latest_product['tec_fecha_edicion']
+            nombreProducto = clean_product_name(rawName)
+            fechaEdicion = rawFecha.strftime('%d/%m/%Y')
         else:
             preventa = False
     else:
         latest_product = None  # Handle case when no product has a valid date
         preventa = False
-
-    print(f"Latest product with a valid edition date: {latest_product}")
-    print(f"Preventa status: {preventa}")
-
-    rawName = latest_product['name']
-    rawFecha = latest_product['tec_fecha_edicion']
-
-    nombreProducto = clean_product_name(rawName)
-    fechaEdicion = rawFecha.strftime('%d/%m/%Y')
-
 
     # Determine the delivery status and prepare the response
     if RawStatus:
