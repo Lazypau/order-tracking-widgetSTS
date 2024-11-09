@@ -15,10 +15,56 @@
             padding: 0;
         }
 
+        /* Widget Wrapper */
+        .widget-wrapper {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-top: 75%; /* Aspect Ratio (height / width * 100%) */
+            overflow: hidden;
+        }
+
+        /* Widget Container */
+        .widget-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px; /* Original width */
+            height: 100%; /* Full height of the wrapper */
+            transform-origin: top left;
+        }
+
+        /* Scaling */
+        .scalable {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 400px; /* Original width */
+            height: 100%; /* Full height */
+        }
+
+        /* Frame Styles */
+        .frame {
+            display: none;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 0;
+            background-color: rgb(20, 20, 20);
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .visible {
+            display: block;
+        }
+
+        /* Text Styles */
         h1, h2 {
             color: #ffffff;
             margin-top: 20px;
-            font-size: 2em;
+            font-size: 32px;
         }
 
         a {
@@ -26,50 +72,32 @@
             color: rgb(213, 237, 119);
         }
 
-        .widget-container {
-            max-width: 100%;
-            width: 400px; /* Desired maximum width */
-            margin: 0 auto; /* Centers the container */
-            padding: 20px;
-            box-sizing: border-box; /* Ensures padding doesn't exceed the width */
-        }
-
+        /* Icon Styles */
         .icon, .icon2 {
-            max-width: 100%;
+            width: 150px;
             height: auto;
             margin-bottom: 10px;
         }
 
-        .frame {
-            display: none;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0; /* Adjusted margin for vertical spacing */
-            background-color: rgb(20, 20, 20);
-            width: 100%; /* Full width of the container */
-            height: auto; /* Automatic height */
-            box-sizing: border-box; /* Include padding in width calculations */
+        .icon2 {
+            width: 145px;
         }
 
-        .visible {
-            display: block;
-        }
-
+        /* Input and Button Styles */
         .input-container {
             display: flex;
             align-items: center;
-            justify-content: center; /* Center the input container */
+            justify-content: center;
             margin-top: 10px;
-            flex-wrap: wrap; /* Allows wrapping on smaller screens */
         }
 
         #frame-1 input {
-            flex: 1 1 auto; /* Flexible width */
-            min-width: 200px; /* Minimum width */
-            max-width: 100%;
-            margin-right: 10px;
-            padding: 10px;
+            padding-left: 10px;
+            padding-right: 6px;
             font-size: 16px;
+            height: 40px;
+            width: 250px;
+            margin-right: 10px;
             border: 3px solid #ffffff;
             background-color: #1a1a1a;
             color: #fff;
@@ -78,14 +106,14 @@
         }
 
         #frame-1 button {
-            flex: 0 0 auto;
-            padding: 10px 20px;
+            height: 40px;
+            padding-left: 10px;
+            padding-right: 10px;
             font-size: 16px;
             background-color: rgb(213, 237, 119);
             border: none;
             border-radius: 1px;
             cursor: pointer;
-            margin-top: 10px; /* Added margin for mobile view */
         }
 
         #frame-1 button:hover {
@@ -94,39 +122,41 @@
 
         .frame p {
             margin: 10px 0;
-            font-size: 1em;
+            font-size: 16px;
             font-weight: bold;
         }
 
-        /* Hidden by default */
-        .hidden {
-            display: none;
-        }
-
-        /* Loading screen styling */
+        /* Loading Screen */
         .loading {
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%; /* Full width of the container */
-            height: 100%; /* Full height of the container */
-            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
-            display: flex;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             color: white;
             z-index: 9999;
+            box-sizing: border-box;
         }
 
-        /* Simple spinner */
+        .loading.visible {
+            display: flex;
+        }
+
         .spinner {
-            border: 8px solid #515151; /* Light grey */
-            border-top: 8px solid rgb(213, 237, 119); /* Accent color */
+            border: 8px solid #515151;
+            border-top: 8px solid rgb(213, 237, 119);
             border-radius: 50%;
             width: 60px;
             height: 60px;
             animation: spin 2s linear infinite;
+            margin-bottom: 20px;
         }
 
         @keyframes spin {
@@ -134,86 +164,95 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Responsive Behavior */
-        @media (max-width: 600px) {
+        /* Responsive Scaling */
+        @media (max-width: 400px) {
             .widget-container {
-                width: 100%;
-                padding: 10px;
+                transform: translateX(-50%) scale(calc(100vw / 400));
             }
+        }
 
-            #frame-1 input {
-                min-width: 100%;
-                margin: 0 0 10px 0;
-            }
-
-            #frame-1 button {
-                width: 100%;
-                margin: 0;
-            }
-
-            .input-container {
-                flex-direction: column;
-                align-items: stretch;
-            }
+        /* Center the content within the frame */
+        .frame-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
         }
     </style>
 </head>
 <body>
 
-    <!-- Widget Container -->
-    <div class="widget-container">
+    <!-- Widget Wrapper -->
+    <div class="widget-wrapper">
+        <!-- Widget Container -->
+        <div class="widget-container">
+            <!-- Scalable Content -->
+            <div class="scalable">
+                <!-- Frame 1 (Order input) -->
+                <div id="frame-1" class="frame visible">
+                    <div class="frame-content">
+                        <img src="assets/search_icon.png" alt="Search Icon" class="icon">
+                        <h2>Busca Tu Pedido</h2>
+                        <div class="input-container">
+                            <input type="text" id="orderInput" placeholder="Ej: S00055">
+                            <button id="submit"><strong>COMPRUEBA</strong></button>
+                        </div>
+                    </div>
+                </div>
 
-        <!-- Frame 1 (Order input) -->
-        <div id="frame-1" class="frame visible">
-            <img src="assets/search_icon.png" alt="Search Icon" class="icon">
-            <h2>Busca Tu Pedido</h2>
-            <div class="input-container">
-                <input type="text" id="orderInput" placeholder="Ej: S00055">
-                <button id="submit"><strong>COMPRUEBA</strong></button>
+                <!-- Loading Screen -->
+                <div id="loading-screen" class="loading">
+                    <div class="spinner"></div>
+                    <p><strong>Cargando...</strong></p>
+                </div>
+
+                <!-- Frame 2 (Not Found) -->
+                <div id="frame-2" class="frame">
+                    <div class="frame-content">
+                        <img src="assets/not_found_icon.png" alt="Not Found Icon" class="icon">
+                        <h2>No encontrado</h2>
+                        <p><strong>No hemos encontrado ningún pedido con el nombre introducido. Por favor, verifica el número o contáctanos a <a href="mailto:tienda@thestoreteam.com">tienda@thestoreteam.com</a>.</strong></p>
+                    </div>
+                </div>
+
+                <!-- Frame 3 (En Preparación) -->
+                <div id="frame-3" class="frame">
+                    <div class="frame-content">
+                        <img src="assets/in_preparation_icon.png" alt="In Preparation Icon" class="icon">
+                        <h2>En Preparación</h2>
+                        <p><strong>Tenemos todos sus productos y su pedido será enviado en menos de 72h. Si hay muchos pedidos o es festivo, se podría tardar hasta 5 días.</strong></p>
+                    </div>
+                </div>
+
+                <!-- Frame 4 (Enviado) -->
+                <div id="frame-4" class="frame">
+                    <div class="frame-content">
+                        <img src="assets/shipped_icon.png" alt="Shipped Icon" class="icon">
+                        <h2>Enviado</h2>
+                        <p><strong>Su producto ha sido enviado. El pedido se ha enviado mediante {transportista} y el número de envío es {num_envio}.</strong></p>
+                    </div>
+                </div>
+
+                <!-- Frame 5 (Esperando Producto) -->
+                <div id="frame-5" class="frame">
+                    <div class="frame-content">
+                        <img src="assets/waiting_icon.png" alt="Waiting Icon" class="icon">
+                        <h2>Esperando Producto.</h2>
+                        <p><strong>Lamentablemente, algún producto que pidió no está en stock y estamos esperando su reposición. En breve tendremos el producto.</strong></p>
+                    </div>
+                </div>
+
+                <!-- Frame 6 (Producto en Preventa) -->
+                <div id="frame-6" class="frame">
+                    <div class="frame-content">
+                        <img src="assets/preorder_icon.png" alt="Preorder Icon" class="icon2">
+                        <h2>Producto en Preventa.</h2>
+                        <p><strong>El producto está en preventa y no se va a enviar hasta {fecha}. Si quieres un pedido parcial (4,99€), escribe a <a href="mailto:tienda@thestoreteam.com">tienda@thestoreteam.com</a>.</strong></p>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <!-- Loading Screen -->
-        <div id="loading-screen" class="loading hidden">
-            <div class="spinner"></div>
-            <p><strong>Cargando...</strong></p>
-        </div>
-
-        <!-- Frame 2 (Not Found) -->
-        <div id="frame-2" class="frame">
-            <img src="assets/not_found_icon.png" alt="Not Found Icon" class="icon">
-            <h2>No encontrado</h2>
-            <p><strong>No hemos encontrado ningún pedido con el nombre introducido. Por favor, verifica el número o contáctanos a <a href="mailto:tienda@thestoreteam.com">tienda@thestoreteam.com</a>.</strong></p>
-        </div>
-
-        <!-- Frame 3 (En Preparación) -->
-        <div id="frame-3" class="frame">
-            <img src="assets/in_preparation_icon.png" alt="In Preparation Icon" class="icon">
-            <h2>En Preparación</h2>
-            <p><strong>Tenemos todos sus productos y su pedido será enviado en menos de 72h. Si hay muchos pedidos o es festivo, se podría tardar hasta 5 días.</strong></p>
-        </div>
-
-        <!-- Frame 4 (Enviado) -->
-        <div id="frame-4" class="frame">
-            <img src="assets/shipped_icon.png" alt="Shipped Icon" class="icon">
-            <h2>Enviado</h2>
-            <p><strong>Su producto ha sido enviado. El pedido se ha enviado mediante {transportista} y el número de envío es {num_envio}.</strong></p>
-        </div>
-
-        <!-- Frame 5 (Esperando Producto) -->
-        <div id="frame-5" class="frame">
-            <img src="assets/waiting_icon.png" alt="Waiting Icon" class="icon">
-            <h2>Esperando Producto.</h2>
-            <p><strong>Lamentablemente, algún producto que pidió no está en stock y estamos esperando su reposición. En breve tendremos el producto.</strong></p>
-        </div>
-
-        <!-- Frame 6 (Producto en Preventa) -->
-        <div id="frame-6" class="frame">
-            <img src="assets/preorder_icon.png" alt="Preorder Icon" class="icon2">
-            <h2>Producto en Preventa.</h2>
-            <p><strong>El producto está en preventa y no se va a enviar hasta {fecha}. Si quieres un pedido parcial (4,99€), escribe a <a href="mailto:tienda@thestoreteam.com">tienda@thestoreteam.com</a>.</strong></p>
-        </div>
-
     </div>
 
     <script src="script.js"></script>
